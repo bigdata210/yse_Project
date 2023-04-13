@@ -1,0 +1,23 @@
+CREATE TABLE  meat(
+Year    INT, 
+Cnt    INT, 
+HiredCnt    INT, 
+ElderCnt    INT, 
+DualincomeCnt    INT, 
+NormalCnt    INT, 
+GenderCode    INT, 
+Age    INT, 
+EduCode    INT, 
+Edu    STRING, 
+ResidentialArea    INT, 
+HouseCnt    INT, 
+HouseCode    STRING, 
+Spending    INT, 
+Meals    INT, 
+Meat    INT, 
+MeatProducts    INT)
+Partitioned by (Year INT)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    STORED AS TEXTFILE; 

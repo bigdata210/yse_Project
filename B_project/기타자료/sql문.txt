@@ -1,0 +1,60 @@
+1. 년도별 가구원수에 따른 평균 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, cnt, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat
+group by year, cnt
+order by year, cnt;
+
+2. 년도별 가구원수별 취업인원수별 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, cnt, hiredcnt, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat 
+group by year, cnt, hiredcnt
+order by year, cnt, hiredcnt;
+
+3. 년도별 가구원수별 맞벌이가구별 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, cnt, dualincomecnt, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat
+group by year, cnt, dualincomecnt
+order by year, cnt, dualincomecnt;
+
+4. 년도별 학력별 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, educode, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat
+group by year, educode
+order by year, educode
+
+5. 년도별 노인가구별 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, eldercnt, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat
+group by year, eldercnt
+order by year, eldercnt;
+
+6. 년도별 주택소유유무별 식대, 육류구입비,육류가공품구입비를 구해라.
+select year, housecnt, round(avg(meals)), round(avg(meat)), round(avg(MeatProducts))
+from meat
+group by year, housecnt
+order by year, housecnt;
+
+7. 년도별 취업인원수별, 맞벌이가구별, 일반가구별 가계 소비지출금액을 구해라.
+select year, hiredcnt, dualincomecnt, normalcnt, round(avg(spending))
+from meat
+group by year, hiredcnt, dualincomecnt, normalcnt
+order by year, hiredcnt, dualincomecnt, normalcnt;
+
+8. 년도별, 주택소유한 사람의 평균 면적과 주택소유하지 않은사람의 평균면적
+select year, housecnt, round(avg(residentialarea))
+from meat
+where residentialarea is not null
+group by year, housecnt
+order by year, housecnt;
+
+9. 년도별, 주택소유한 사람과 주택소유하지않은 사람의 식대, 육류 
+select year, housecnt, round(avg(meals)), round(avg(meat)), round(avg(meatproducts))
+from meal2
+group by year, housecnt
+order by year, housecnt;
+
+10. 년도별, 가구원수의 추이를 구해라.
+select year, cnt, count(cnt)
+from meat
+group by year, cnt
+order by year, cnt;

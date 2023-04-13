@@ -1,0 +1,18 @@
+연도 - year
+가구원수 - cnt
+취업인원수 - hiredcnt
+노인가구여부 - eldercnt
+맞벌이가구여부 - dualincomecnt
+일반가구여부 - normalcnt
+성별코드 - gendercode
+연령 - age
+학력코드 - educode
+학력 - edu
+주거용전용면적 - residentialarea
+주택소유유무 - housecnt
+주택소유구분 - housecode
+가계소비지출금액 - spending
+식대 - meals
+육류구입비 - meat
+육류가공품구입비 - meatproducts
+

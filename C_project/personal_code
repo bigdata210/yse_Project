@@ -1,0 +1,203 @@
+# 주류 -지식백과
+import urllib.request
+from bs4 import BeautifulSoup
+
+def alcoholic_beverages():
+    url="https://terms.naver.com/entry.naver?docId=296668&cid=48182&categoryId=48182"
+    html=urllib.request.urlopen(url)
+    soup=BeautifulSoup(html,"html.parser")
+    sentences=soup.find_all("div",{"class":"size_ct_v2"})
+    for sentences in sentences[len(sentences)//2:]:
+        print(sentences.get_text("\n", strip=True))
+
+alcoholic_beverages()
+
+
+
+# 주류의 뉴스에 관한 크롤링
+import urllib.request
+from bs4 import BeautifulSoup
+
+def Alcohol_beverage():
+    url="https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EC%A3%BC%EB%A5%98"
+    html=urllib.request.urlopen(url)
+    soup=BeautifulSoup(html,"html.parser")
+
+    hdline=soup.find("ul",attrs={"class":"list_news"})
+    lis=hdline.findAll("li")
+    index=1
+    for li in lis:
+        try:                     
+            a_tag=li.find("a",{"class":"news_tit"})
+            a_href=a_tag.get("href")
+            title=a_tag.get_text()
+            div_tag=li.find("div",{"class":"news_area"}).get_text().strip()
+            print(index,title)
+            print(div_tag)
+            print(a_href)
+            index+=1
+            print()
+        except:
+            pass
+    
+Alcohol_beverage()
+
+
+
+# 서울국제주류&와인박람회-행사개요 및 소개
+import requests
+from bs4 import BeautifulSoup
+
+def SIWSE1():
+    url="http://www.siwse.com/sp.php?p=12"
+    html=urllib.request.urlopen(url)
+    soup=BeautifulSoup(html,"html.parser")
+    #print(soup)
+    div=soup.find("div",{"class":"sub12_01"})
+    #print(div)
+    txt=div.find("section",{"class":"txt"})
+    print(txt.get_text().strip())
+    
+SIWSE1()
+print()
+
+def SIWSE2():
+    url="http://www.siwse.com/sp.php?p=11"
+    html=urllib.request.urlopen(url)
+    soup=BeautifulSoup(html,"html.parser")
+    #print(soup)
+    hdline=soup.find("div",{"class":"content_desc"})
+    print(hdline.get_text().strip())
+
+SIWSE2()
+
+
+
+# 주류-지식in
+import requests
+from bs4 import BeautifulSoup
+
+def ju():
+    url ="https://search.naver.com/search.naver?where=kin&sm=tab_jum&query=%EC%A3%BC%EB%A5%98"
+    html=urllib.request.urlopen(url)
+    soup=BeautifulSoup(html,"html.parser")
+    #print(soup)
+    hdline=soup.find("div",{"class":"api_subject_bx"})
+    lis=hdline.findAll("li")
+    #print(lis)
+    index=0
+    for li in lis:
+        index+=1
+        question=li.find("a",{"class":"api_txt_lines question_text"})
+        print("[",index,"]",question.get_text())
+        answer=li.find("div",{"class":"answer_group"})
+        print(answer.get_text().strip())
+        url=li.find("a",{"class":"btn_save _keep_trigger"})
+        url1=url.get("data-url")
+        print(url1)
+        print()
+    
+ju()
+
+
+
+# 한국주류산업협회 주류산업 소개
+import urllib.request
+from bs4 import BeautifulSoup
+import pandas as pd
+
+def scrap_to_excel():
+    urls="https://www.kalia.or.kr:9118/sub03/sub01.php"
+    htmls=urllib.request.urlopen(urls)
+    soup=BeautifulSoup(htmls,"html.parser")
+    div = soup.find("div", {"class":"sub0301_wrap"})
+    h4s = div.findAll("h4", {"class":"h4_tit"})
+    
+    result = []
+    for h4 in h4s:
+        title = h4.get_text()
+        content = h4.find_next("p").get_text().strip()
+        result.append([title, content])
+        
+    df = pd.DataFrame(result, columns=['headLine', 'content'])
+    df.to_excel('주류산업소개.xlsx', index=False)
+    print("저장 완료")
+    return df
+
+scrap_to_excel()
+
+
+
+# 한국주류산업협회 술의 종류 
+import urllib.request
+from bs4 import BeautifulSoup
+import pandas as pd
+
+url="https://www.kalia.or.kr:9118/sub03/sub02.php"
+html=urllib.request.urlopen(url)
+soup=BeautifulSoup(html,"html.parser")
+div=soup.find("div",{"class":"sub0302_wrap"})
+h4s=div.findAll("h4",{"class":"h4_tit"})
+
+def drink():
+    dfs = pd.read_html("https://www.kalia.or.kr:9118/sub03/sub02.php", header=0, encoding='utf-8')
+    
+    # xlsx 파일로 저장하기
+    for i, df in enumerate(dfs):
+        df.to_excel(f"{h4s[i+1].get_text()}.xlsx", index=False)
+        print(f"{h4s[i+1].get_text()}.xlsx 저장완료")
+
+drink()
+
+
+
+# 주류 소매가(맥주,소주)
+import requests
+from bs4 import BeautifulSoup 
+
+regions=input("서울.광주.대구.대전.부산 중 입력하세요. ")
+print()
+
+def RPOAB():
+    url = f"https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&qvt=0&query={regions}%20%EC%A3%BC%EB%A5%98%20%EC%86%8C%EB%A7%A4%EA%B0%80"
+    response=requests.get(url)
+    soup=BeautifulSoup(response.text,"html.parser")     
+    #print(soup)
+    data=soup.find("div",{"class":"panel selected"})
+    if data is None:
+        print("입력하신 지역에 대한 정보가 없습니다.")
+        return
+    
+    list=data.find("table",{"class":"list_over"})
+    div=data.find("div",{"class":"detail"})
+    item=div.findAll("tr")
+    beer=item[0].get_text()
+    soju=item[1].get_text()
+    
+    print(list.get_text().strip())
+    print(beer)
+    print(soju)
+    
+RPOAB()
+
+
+
+# 1인당 한국 알콜음료 소비량 통계
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+
+# 한글 폰트 경로 설정
+font_path="C:/Windows/Fonts/malgun.ttf"
+font= font_manager.FontProperties(fname=font_path).get_name()
+
+plt.rc("font",family=font)
+
+df=pd.read_csv("1인당_알콜음료_소비량.csv", encoding="euc-kr")
+
+plt.plot(df["년도별"],df["1인당 소비량"])
+plt.xlabel("년도별")
+plt.ylabel("1인당 소비량")
+plt.title("1인당 알콜음료 소비량")
+#plt.xticks(df["년도별"],rotation=90)
+plt.show()
